@@ -1,16 +1,9 @@
-package ru.yandex.scooter;
+package ru.yandex.scooter.pageObjects;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.junit.runners.Parameterized;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -20,14 +13,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-
-class PositiveScript {
-    private final WebDriver driver;
-
-    PositiveScript(WebDriver driver) {
-        this.driver = driver;
-    }
-
+public class OrderPage {
     private final By fieldName = By.xpath(".//input[@placeholder='* Имя']");
     private final By fieldSurname = By.xpath(".//input[@placeholder='* Фамилия']");
     private final By fieldAddress = By.xpath(".//input[@placeholder='* Адрес: куда привезти заказ']");
@@ -50,6 +36,12 @@ class PositiveScript {
     private final By orderConfirmationWindow = By.xpath(".//div[@class='Order_Modal__YZ-d3']/div[text()='Хотите оформить заказ?']");
     private final By buttonYesInOrderConfirmationWindow = By.xpath(".//button[@class='Button_Button__ra12g Button_Middle__1CSJM' and text()='Да']");
     private final By windowWithAnOrder = By.xpath(".//div[@class='Order_Modal__YZ-d3']/div[text()='Заказ оформлен']");
+
+    private final WebDriver driver;
+
+    public OrderPage(WebDriver driver) {
+        this.driver = driver;
+    }
 
     public void clickButtonOrder() {
         WebElement element = driver.findElement(buttonOrder);
@@ -147,7 +139,6 @@ class PositiveScript {
             if (dayMonth.getText().equals("1")) {
                 break;
             }
-
             indexStartCalendar++;
         }
 
@@ -158,7 +149,6 @@ class PositiveScript {
                 break;
             }
         }
-
     }
 
     public void waitingWindowsWithSuccessfulOrder() {
@@ -171,66 +161,5 @@ class PositiveScript {
 
         new WebDriverWait(driver, 10)
                 .until(ExpectedConditions.visibilityOfElementLocated(windowWithAnOrder));
-    }
-}
-
-
-@RunWith(Parameterized.class)
-public class OrderPage {
-    private WebDriver driver;
-    private final String name;
-    private final String surname;
-    private final String address;
-    private final String nameOfStation;
-    private final String phoneNumber;
-    private final String data;
-    private final String rentalPeriod;
-    private final String colorOfScooter;
-    private final String comment;
-
-    public OrderPage(String name, String surname, String address, String nameOfStation, String phoneNumber, String data, String rentalPeriod, String colorOfScooter, String comment) {
-        this.name = name;
-        this.surname = surname;
-        this.address = address;
-        this.nameOfStation = nameOfStation;
-        this.phoneNumber = phoneNumber;
-        this.data = data;
-        this.rentalPeriod = rentalPeriod;
-        this.colorOfScooter = colorOfScooter;
-        this.comment = comment;
-    }
-
-    @Before
-    public void startUp() {
-        //WebDriverManager.chromedriver().setup();
-        //driver = new ChromeDriver();
-        WebDriverManager.firefoxdriver().setup();
-        driver = new FirefoxDriver();
-    }
-
-    @Parameterized.Parameters
-    public static Object[][] getText() {
-        return new Object[][]{
-                {"Андрей", "Романов", "Ленина 84", "Владыкино", "89347283495", "30.12.2022", "двое суток", "чёрный жемчуг", "Спасибо"},
-                {"Екатерина", "Алексеенко", "Каслина 190", "Зорге", "89236592019", "30.11.2022", "семеро суток", "серая безысходность", "Позвоните за час"},
-        };
-    }
-
-    @Test
-    public void checkChapterOfImportant() {
-        driver.get("https://qa-scooter.praktikum-services.ru/");
-
-        PositiveScript positiveScript = new PositiveScript(driver);
-        positiveScript.clickButtonOrder();
-        positiveScript.fillFirstFields(name, surname, address, nameOfStation, phoneNumber);
-        positiveScript.clickButtonNext();
-        positiveScript.fillSecondFields(data, rentalPeriod, colorOfScooter, comment);
-        positiveScript.waitingWindowsWithSuccessfulOrder();
-
-    }
-
-    @After
-    public void teardown() {
-        driver.close();
     }
 }
