@@ -22,7 +22,6 @@ public class Header {
         this.driver = driver;
     }
 
-
     public void clickOnOrderButtonToOpenOrderPage() {
         driver.findElement(buttonOrderOnHeader).click();
 

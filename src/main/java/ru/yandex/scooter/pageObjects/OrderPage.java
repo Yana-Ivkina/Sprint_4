@@ -116,6 +116,7 @@ public class OrderPage {
                 break;
             }
         }
+
         // Заполнение формы (Цвет самоката)
         List<WebElement> listOfCheckboxColor = driver.findElements(fieldOfColor);
         for (WebElement checkboxColor : listOfCheckboxColor) {
@@ -124,6 +125,7 @@ public class OrderPage {
                 break;
             }
         }
+
         // Заполнение формы (Комментарий для курьера)
         driver.findElement(fieldOfComment).sendKeys(comment);
 
