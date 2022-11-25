@@ -7,7 +7,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import ru.yandex.scooter.pageObjects.MainPage;
+import ru.yandex.scooter.pageobjects.MainPage;
 
 import static org.junit.Assert.assertEquals;
 
